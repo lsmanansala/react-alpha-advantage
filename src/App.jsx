@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
-import DataSet from "./assets/test.json";
 
 const App = () => {
   const [expandedRow, setExpandedRow] = useState(null);
@@ -29,16 +28,14 @@ const App = () => {
     );
     const data = response.data;
     setData(data["Time Series (Daily)"]);
-    setKeys(Object.keys(DataSet["Time Series (Daily)"]));
+    setKeys(Object.keys(data["Time Series (Daily)"]));
     setMeta(data["Meta Data"]);
   };
 
-  // Get current items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = keys.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const getChildKeys = (item) => {
@@ -66,7 +63,7 @@ const App = () => {
             {"Symbol"}: {meta["2. Symbol"]}
           </div>
           <div className="text-md font-semibold mb-2">
-            {"Last Refreshed"}: {meta["3. Last Refreshed"]}
+            {"Last Refreshed"}: {formatDay(meta["3. Last Refreshed"])}
           </div>
         </div>
         <div className="grid grid-col-1">
@@ -97,10 +94,10 @@ const App = () => {
                 </tr>
                 {expandedRow === index && (
                   <tr>
-                    <td colSpan="3" className="p-4">
+                    <td className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-slate-300">
                       {getChildKeys(data[key]).map((item, index) => (
                         <React.Fragment key={index}>
-                          <div className="bg-white rounded-lg shadow-md p-4 my-2">
+                          <div className="grid-cols-1 bg-white rounded-lg shadow-md p-4 my-2">
                             {formatLabel(item)}: {data[key][item]}
                           </div>
                         </React.Fragment>
