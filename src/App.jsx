@@ -94,11 +94,12 @@ const App = () => {
                 </tr>
                 {expandedRow === index && (
                   <tr>
-                    <td className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-slate-300">
+                    <td className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-slate-300 items-center justify-center">
                       {getChildKeys(data[key]).map((item, index) => (
                         <React.Fragment key={index}>
                           <div className="grid-cols-1 bg-white rounded-lg shadow-md p-4 my-2">
-                            {formatLabel(item)}: {data[key][item]}
+                            <div className="font-bold">{formatLabel(item)}</div>
+                            <div>{data[key][item]}</div>
                           </div>
                         </React.Fragment>
                       ))}
